@@ -1,0 +1,6 @@
+{
+  "name": "VocalSwap",
+  "description": "AI Video Voice Swapper featuring zero-shot neural vocal synthesis, WebAssembly FFmpeg media processing, interactive audio trimming, technical audio inspection, and cloud conversion history.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
