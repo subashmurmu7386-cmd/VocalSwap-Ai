@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-deep: #060810;
+    --bg-darker: #040508;
+    --glass-bg: rgba(14, 20, 36, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-glow: rgba(0, 240, 255, 0.15);
+    --accent-cyan: #00f0ff;
+    --accent-purple: #a855f7;
+    --accent-pink: #ec4899;
+  }
+
+  body {
+    background-color: #060810;
+    color: #f8fafc;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    selection-background-color: rgba(0, 240, 255, 0.3);
+  }
+}
+
+/* Glassmorphic Cards & Panels */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 
+    0 20px 40px -15px rgba(0, 0, 0, 0.7),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-panel-subtle {
+  background: rgba(15, 23, 42, 0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-interactive {
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 
+    0 15px 35px -10px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-panel-interactive:hover {
+  background: rgba(22, 33, 58, 0.55);
+  border-color: rgba(0, 240, 255, 0.28);
+  box-shadow: 
+    0 20px 45px -10px rgba(0, 240, 255, 0.12),
+    0 0 25px 0 rgba(168, 85, 247, 0.12),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.glass-glow-cyan {
+  box-shadow: 
+    0 0 30px -5px rgba(0, 240, 255, 0.35),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.glass-glow-purple {
+  box-shadow: 
+    0 0 35px -5px rgba(168, 85, 247, 0.35),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Glowing text gradients */
+.text-gradient-cyan-purple {
+  background: linear-gradient(135deg, #ffffff 0%, #00f0ff 45%, #a855f7 85%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #ffffff 15%, #00f0ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-purple {
+  background: linear-gradient(135deg, #c084fc 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Keyframe animations */
+@keyframes floatOrb1 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(40px, -60px) scale(1.1);
+  }
+  66% {
+    transform: translate(-30px, 40px) scale(0.95);
+  }
+}
+
+@keyframes floatOrb2 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(-50px, 50px) scale(1.12);
+  }
+  66% {
+    transform: translate(35px, -45px) scale(0.9);
+  }
+}
+
+@keyframes floatOrb3 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(60px, 30px) scale(1.08);
+  }
+}
+
+@keyframes pulseBorder {
+  0%, 100% {
+    border-color: rgba(0, 240, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+  }
+  50% {
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
+  }
+}
+
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-orb-1 {
+  animation: floatOrb1 18s ease-in-out infinite;
+}
+
+.animate-orb-2 {
+  animation: floatOrb2 22s ease-in-out infinite;
+}
+
+.animate-orb-3 {
+  animation: floatOrb3 15s ease-in-out infinite;
+}
+
+.animate-pulse-border {
+  animation: pulseBorder 3s ease-in-out infinite;
+}
+
+.animate-shimmer-fast {
+  animation: shimmerSweep 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(6, 8, 16, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 240, 255, 0.4);
+}
