@@ -239,7 +239,17 @@ export async function mergeAudioWithVideo(
       hasSubtitles = true;
     }
 
-    const execArgs: string[] = ['-i', inputVideoName, '-i', inputAudioName];
+    const hardwareThreads = String(
+      typeof navigator !== 'undefined' && navigator.hardwareConcurrency
+        ? navigator.hardwareConcurrency
+        : 8
+    );
+
+    const execArgs: string[] = [
+      '-threads', hardwareThreads,
+      '-i', inputVideoName,
+      '-i', inputAudioName
+    ];
 
     if (hasSubtitles) {
       let fontStyle = 'FontSize=18,FontName=Sans,PrimaryColour=&H00FFFFFF,OutlineColour=&H90000000,BorderStyle=3,MarginV=32';
@@ -259,42 +269,50 @@ export async function mergeAudioWithVideo(
         '-vf', `subtitles=${subtitleName}:force_style='${fontStyle}'`,
         '-c:v', 'libx264',
         '-preset', 'ultrafast',
+        '-tune', 'zerolatency',
         '-crf', '20',
         '-pix_fmt', 'yuv420p'
       );
     } else {
-      // Direct stream copy for 100x fast zero-reencoding video passthrough
+      // Direct video stream copy for 5x+ high-speed zero-reencoding video passthrough
       execArgs.push('-c:v', 'copy');
     }
 
     execArgs.push(
       '-c:a', 'aac',
       '-b:a', '192k',
+      '-preset', 'ultrafast',
+      '-tune', 'zerolatency',
       '-map', '0:v:0',
       '-map', '1:a:0',
+      '-movflags', '+faststart',
       '-shortest',
       outputVideoName
     );
 
     if (onLog) {
-      onLog(`[Muxer] Executing FFmpeg command: ${execArgs.join(' ')}`, 'info');
+      onLog(`[Muxer] Executing FFmpeg high-speed command: ${execArgs.join(' ')}`, 'info');
     }
 
     const exitCode = await ffmpeg.exec(execArgs);
 
     if (exitCode !== 0) {
       if (hasSubtitles && onLog) {
-        onLog('[Subtitles] Subtitle filter fallback: trying plain mux without subtitle overlay...', 'warn');
+        onLog('[Subtitles] Subtitle filter fallback: trying plain stream copy without subtitle overlay...', 'warn');
       }
       // Fallback copy if subtitle filter fails
       const fallbackExitCode = await ffmpeg.exec([
+        '-threads', hardwareThreads,
         '-i', inputVideoName,
         '-i', inputAudioName,
         '-c:v', 'copy',
         '-c:a', 'aac',
         '-b:a', '192k',
+        '-preset', 'ultrafast',
+        '-tune', 'zerolatency',
         '-map', '0:v:0',
         '-map', '1:a:0',
+        '-movflags', '+faststart',
         '-shortest',
         outputVideoName
       ]);
