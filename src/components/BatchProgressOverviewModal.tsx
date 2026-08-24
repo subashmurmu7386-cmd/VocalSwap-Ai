@@ -140,7 +140,7 @@ export const BatchProgressOverviewModal: React.FC<BatchProgressOverviewModalProp
       if (diff > 0 && diff < 600) return diff;
     }
     const dur = item.videoState.duration || 10;
-    return dur / 1.5;
+    return dur / 5.5;
   };
 
   // Completed Jobs in the current session
@@ -154,13 +154,13 @@ export const BatchProgressOverviewModal: React.FC<BatchProgressOverviewModalProp
   // Session Average Processing Metrics
   const avgProcTimePerJob = completedJobsCount > 0 ? totalCompletedProcTime / completedJobsCount : 0;
   
-  // Ratio of conversion time per video duration second (e.g. 0.8 means 8s processing per 10s video)
+  // Ratio of conversion time per video duration second (e.g. 0.18 means 1.8s processing per 10s video = ~5.5x speed)
   const sessionSecPerVidSec =
     totalCompletedVideoDuration > 0
       ? totalCompletedProcTime / totalCompletedVideoDuration
-      : 0.8; // Default baseline ~1.25x processing speed when 0 jobs completed
+      : 0.18; // Default baseline ~5.55x processing speed with FFmpeg stream-copy & hardware concurrency
 
-  const sessionSpeedMultiplier = sessionSecPerVidSec > 0 ? 1 / sessionSecPerVidSec : 1.25;
+  const sessionSpeedMultiplier = sessionSecPerVidSec > 0 ? 1 / sessionSecPerVidSec : 5.55;
 
   // Real-time Estimated Time Remaining (ETA) calculation
   const totalRemainingSec = queue.reduce((acc, item) => {

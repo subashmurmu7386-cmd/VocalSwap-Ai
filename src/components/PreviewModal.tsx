@@ -17,6 +17,9 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { ConversionRecord } from '../lib/firestore';
+import { VaultPreviewModal } from './VaultPreviewModal';
+
+export { VaultPreviewModal };
 
 export interface PreviewModalProps {
   isOpen: boolean;
@@ -323,7 +326,7 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
                 onLoadedMetadata={() => {
                   if (videoRef.current) setDuration(videoRef.current.duration || 0);
                 }}
-                className="w-full h-full object-contain"
+                className="w-full h-auto max-h-[420px] rounded-xl bg-black border border-slate-700/60 shadow-xl"
               />
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center text-slate-400">
